@@ -119,8 +119,8 @@
                 })
             },
             selectedDev(){
-                this.SingleData=this.value;
                 this.SingleTimeData=this.value;
+                this.SingleData=this.value;
             },
             selectTime(){
                 if(this.dateValue===null){

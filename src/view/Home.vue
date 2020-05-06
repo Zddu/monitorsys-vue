@@ -19,7 +19,7 @@
             </div>
         </el-header>
         <el-container>
-            <el-aside width="200px;">
+            <el-aside width="200px;" style="height: 100%;">
                 <el-menu
                         class="el-menu-vertical-demo"
                         background-color="#1e2640"

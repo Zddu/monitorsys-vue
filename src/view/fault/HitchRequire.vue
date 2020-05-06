@@ -6,14 +6,16 @@
                 <div class="HRContent">
                     <div class="HRContentTabs">
                         <span style="float: left;margin-top: 3px;margin-right: 30px;font-family: 微软雅黑;font-size: 25px;display: block">故障查询</span>
-                        <el-radio-group @change="agreeChange" v-model="hrRadio" size="mini" text-color="white"
-                                        fill="#8594a9" style="margin-top: 5px;">
-                            <el-radio-button label="今天"></el-radio-button>
-                            <el-radio-button label="昨天"></el-radio-button>
-                            <el-radio-button label="三天"></el-radio-button>
-                            <el-radio-button label="一周"></el-radio-button>
-                            <el-radio-button label="自定义"></el-radio-button>
-                        </el-radio-group>
+                        <el-date-picker
+                                size="small"
+                                v-model="dateSelect"
+                                type="datetimerange"
+                                :picker-options="dateOptions"
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
+                                align="right">
+                        </el-date-picker>
                     </div>
                     <div class="HRTable" style="margin-top: 20px;">
                         <el-table
@@ -122,6 +124,7 @@
         },
         data() {
             return {
+                dateSelect:[new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDay(),0,0), new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDay(),23, 0)],
                 hrRadio: '今天',
                 hrDialogFormVisible: false,
                 hrFormLabelWidth: '120px',
@@ -163,6 +166,33 @@
                 hrDefaultProps: {
                     children: 'children',
                     label: 'label'
+                },
+                dateOptions: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
                 },
                 form: {
                     delivery: false,
