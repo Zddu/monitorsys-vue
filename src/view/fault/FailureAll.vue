@@ -105,8 +105,9 @@
         methods:{
             selectDevice(){
                 this.getRequest("/faultoverview/select/").then(res=>{
-                    this.value = res[0].ip.toString();
+                    this.value = res[79].ip.toString();
                     this.SingleData= this.value;
+                    this.SingleTimeData= this.value;
                     for(let i =0;i<res.length;i++){
                         if (res[i].typename === '服务器') {
                             this.options[0].options.push(res[i])

@@ -2,11 +2,11 @@
     <el-container direction="vertical" style="width:100%;">
         <el-container style="width:100%;display: flex;">
             <div style="flex:1;">
-
                 <div class="HRContent">
                     <div class="HRContentTabs">
                         <span style="float: left;margin-top: 3px;margin-right: 30px;font-family: 微软雅黑;font-size: 25px;display: block">故障查询</span>
                         <el-date-picker
+                                style="margin-right: 10px;"
                                 size="small"
                                 v-model="dateSelect"
                                 type="datetimerange"
@@ -16,6 +16,21 @@
                                 end-placeholder="结束日期"
                                 align="right">
                         </el-date-picker>
+                        <el-select @change="QueryChange" style="width: 340px;margin-right: 10px;" size="small" filterable  default-first-option v-model="value" placeholder="请选择搜索设备">
+                            <el-option-group
+                                    v-for="group in options"
+                                    :key="group.label"
+                                    :label="group.label">
+                                <el-option
+                                        v-for="item in group.options"
+                                        :key="item.ip"
+                                        :label="item.ip"
+                                        :value="item.ip">
+                                    <span style="float: right">{{ item.name }}</span>
+                                    <span style="float: left; color: #8492a6; font-size: 13px">{{ item.ip }}</span>
+                                </el-option>
+                            </el-option-group>
+                        </el-select>
                     </div>
                     <div class="HRTable" style="margin-top: 20px;">
                         <el-table
@@ -82,36 +97,6 @@
                         </el-table>
                     </div>
                 </div>
-                <el-dialog title="查询时间" :visible.sync="hrDialogFormVisible">
-                    <el-form :model="form">
-                        <el-form-item label="开始日期" :label-width="hrFormLabelWidth">
-                            <el-date-picker
-                                    v-model="day1"
-                                    type="date"
-                            >
-                            </el-date-picker>
-                        </el-form-item>
-                        <el-form-item label="结束日期" :label-width="hrFormLabelWidth">
-                            <el-date-picker
-                                    v-model="day1"
-                                    type="date"
-                            >
-                            </el-date-picker>
-                        </el-form-item>
-                        <el-form-item label="监测点" :label-width="hrFormLabelWidth">
-                            <div :class="[isChange?'treeContainer':'treeContainer-active']">
-                                <el-tree @node-expand="hrExpand" @node-collapse="hrCollapse"
-                                         :render-content="renderContent" show-checkbox :data="hrTreedata"
-                                         :props="hrDefaultProps">
-                                </el-tree>
-                            </div>
-                        </el-form-item>
-                    </el-form>
-                    <div slot="footer" class="dialog-footer">
-                        <el-button size="small" @click="hrDialogFormVisible = false">取 消</el-button>
-                        <el-button size="small" type="primary" @click="hrDialogFormVisible = false">确 定</el-button>
-                    </div>
-                </el-dialog>
             </div>
         </el-container>
     </el-container>
@@ -124,6 +109,43 @@
         },
         data() {
             return {
+                QueryOptions: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                options: [{
+                    label: '服务器',
+                    options: []
+                }, {
+                    label: '网络设备',
+                    options: []
+                }, {
+                    label: 'SNMP服务配置有误',
+                    options: []
+                }],
                 dateSelect:[new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDay(),0,0), new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDay(),23, 0)],
                 hrRadio: '今天',
                 hrDialogFormVisible: false,
@@ -199,26 +221,32 @@
                 },
             }
         },
+
         computed: {
             day1() {
                 return Date.now();
             }
         },
+        mounted(){
+          this.initSelectList();
+        },
         methods: {
-            flushCom: function () {
-                this.reload();
+            initSelectList(){
+                this.getRequest("/faultoverview/select/").then(res=>{
+                    this.value = res[79].ip.toString();
+                    for(let i =0;i<res.length;i++){
+                        if (res[i].typename === '服务器') {
+                            this.options[0].options.push(res[i])
+                        }else if(res[i].typename === 'SNMP服务配置有误'){
+                            this.options[2].options.push(res[i])
+                        }else{
+                            this.options[1].options.push(res[i])
+                        }
+                    }
+                })
             },
-            agreeChange: function (val) {
-                if (val === '自定义') {
-                    this.hrDialogFormVisible = true;
-                }
-            },
-            renderContent(h, {node, data, store}) {
-                return (
-                    < span >
-                    < i class= {data.icon} > < /i>
-                    < span > {node.label} < /span>
-                    < /span>)
+            QueryChange(val){
+
             },
             hrExpand(data) {
                 if (data.label === '本机容器') {

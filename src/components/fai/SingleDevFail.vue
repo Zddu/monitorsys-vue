@@ -41,7 +41,7 @@
             getDeviceData(ip){
                 this.getRequest("/faultoverview/pie/?ip="+ip).then(res=>{
                     this.pieData = res;
-                    this.initSingle(this.pieData);
+                    this.initSingle();
                 })
             },
             initSingle(){
