@@ -5,7 +5,7 @@
                 <div class="HVContent" style="width: 100%">
                     <div class="HVContentTabs" style="width: 100%">
                         <span style="float: left;margin-top: 3px;margin-right: 30px;font-family: 微软雅黑;font-size: 25px;">故障视图</span>
-                        <el-tabs v-model="activeName" type="card">
+                        <el-tabs @tab-click="processing" v-model="activeName" type="card">
                             <el-tab-pane label="未处理告警" name="first">
                                 <div class="HRContentTabs">
                                     <el-table
@@ -42,16 +42,19 @@
                                         >
                                         </el-table-column>
                                         <el-table-column
+                                                sortable
                                                 prop="frequency"
                                                 label="次数"
                                                 width="100">
                                         </el-table-column>
                                         <el-table-column
+                                                sortable
                                                 prop="time"
                                                 label="开始时间"
                                         >
                                         </el-table-column>
                                         <el-table-column
+                                                sortable
                                                 prop="newTime"
                                                 label="最新时间"
                                         >
@@ -132,12 +135,14 @@
                                     >
                                     </el-table-column>
                                     <el-table-column
+                                            sortable
                                             prop="time"
                                             label="开始时间"
                                     >
                                     </el-table-column>
                                     <el-table-column
-                                            prop="newtime"
+                                            sortable
+                                            prop="newTime"
                                             label="最新时间"
                                     >
                                     </el-table-column>
@@ -214,12 +219,14 @@
                                     >
                                     </el-table-column>
                                     <el-table-column
+                                            sortable
                                             prop="time"
                                             label="开始时间"
                                     >
                                     </el-table-column>
                                     <el-table-column
-                                            prop="newtime"
+                                            sortable
+                                            prop="newTime"
                                             label="最新时间"
                                     >
                                     </el-table-column>
@@ -274,8 +281,9 @@
                                 </el-form>
                             </div>
                             <span slot="footer" class="dialog-footer">
-                                <el-button  size="small" @click="selectedRemark = false">取 消</el-button>
-                                <el-button  :disabled="sRe" size="small" type="primary" @click="doSelectedRe()" >确 定</el-button>
+                                <el-button size="small" @click="selectedRemark = false">取 消</el-button>
+                                <el-button :disabled="sRe" size="small" type="primary"
+                                           @click="doSelectedRe()">确 定</el-button>
                             </span>
                         </el-dialog>
 
@@ -291,8 +299,9 @@
                                 </el-form>
                             </div>
                             <span slot="footer" class="dialog-footer">
-                                <el-button  size="small" @click="dojob = false">取 消</el-button>
-                                <el-button  :disabled="doBtn" size="small" type="primary" @click="doprocess()" >确 定</el-button>
+                                <el-button size="small" @click="dojob = false">取 消</el-button>
+                                <el-button :disabled="doBtn" size="small" type="primary"
+                                           @click="doprocess()">确 定</el-button>
                             </span>
                         </el-dialog>
                         <el-dialog
@@ -302,12 +311,12 @@
                             <div>
                                 <el-form>
                                     <el-form-item prop="desc">
-                                        <el-input type="textarea"  v-model="form.desc"></el-input>
+                                        <el-input type="textarea" v-model="form.desc"></el-input>
                                     </el-form-item>
                                 </el-form>
                             </div>
                             <span slot="footer" class="dialog-footer">
-                                <el-button size="small"  @click="remarkInfo = false">取 消</el-button>
+                                <el-button size="small" @click="remarkInfo = false">取 消</el-button>
                             </span>
                         </el-dialog>
                     </div>
@@ -324,46 +333,60 @@
         components: {},
         data() {
             return {
-                selectedRemark:false,
-                sRe:false,
-                classStyle1:'st-square st-square-deepred',
-                classStyle2:'st-square st-square-warning',
-                do:true,
-                loading1:true,
-                doBtn:false,
+                selectedRemark: false,
+                sRe: false,
+                classStyle1: 'st-square st-square-deepred',
+                classStyle2: 'st-square st-square-warning',
+                do: true,
+                loading1: true,
+                doBtn: false,
                 search: '',
-                remarkInfo:false,
-                form:{
-                    devIp:'',
-                    desc:'',
-                    id:'',
+                remarkInfo: false,
+                form: {
+                    devIp: '',
+                    desc: '',
+                    id: '',
                 },
-                dojob:false,
+                dojob: false,
                 ignored: [],
                 tableData: [],
                 processed: [],
                 multipleSelection: [],
                 value: '默认视图',
                 activeName: 'first',
-                ids:[],
-                idsOne:[],
+                ids: [],
+                idsOne: [],
             }
         },
         methods: {
+            //正在处理模块数据请求
+            processing(tab, event) {
+                if (tab.name === 'second') {
+                    this.loading1 = true;
+                    this.getRequest("/diagnosis/processedpage").then(res => {
+                        this.processed = res;
+                        this.loading1 = false;
+                    });
+                }
+                if (tab.name === 'third') {
+                    this.loading1 = true;
+                    this.getRequest("/diagnosis/ignorepage").then(res => {
+                        this.ignored = res;
+                        this.loading1 = false;
+                    });
+                }
+            },
             //导出未处理告警
-            exportAll(){
-                window.open("/diagnosis/export/unhandledwarnings/","_parent");
+            exportAll() {
+                window.open("/diagnosis/export/unhandledwarnings/", "_parent");
             },
             //导出正在处理告警
-            exportAll1(){
-                window.open("/diagnosis/export/processedwarnings/","_parent");
+            exportAll1() {
+                window.open("/diagnosis/export/processedwarnings/", "_parent");
             },
             //导出已忽略
-            exportAll2(){
-                window.open("/diagnosis/export/ignorewarnings/","_parent");
-            },
-            process(row) {
-
+            exportAll2() {
+                window.open("/diagnosis/export/ignorewarnings/", "_parent");
             },
             del(row) {
                 this.$confirm('此操作将删除该故障, 是否继续?', '提示', {
@@ -371,12 +394,9 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    sessionStorage.setItem("notprocess","");
-                    this.processed=[];
-                    this.deleteRequest("/diagnosis/delete/?id="+row.id).then(res=>{
-                        if (res) {
-                            this.initD();
-                        }
+                    this.processed = [];
+                    this.loading1=true;
+                    this.deleteRequest("/diagnosis/delete/?id=" + row.id).then(res => {
                         this.initD();
                     })
                 }).catch(() => {
@@ -394,9 +414,9 @@
                     type: 'warning'
                 }).then(() => {
                     this.doBtn = true;
-                    sessionStorage.setItem("notprocess","");
-                    this.tableData=[];
-                    this.postRequest("/diagnosis/ignore/?id="+row.id).then(res=>{
+                    this.loading1 = true;
+                    this.tableData = [];
+                    this.putRequest("/diagnosis/ignore/?id=" + row.id).then(res => {
                         if (res) {
                             this.initD();
                         }
@@ -410,80 +430,50 @@
 
             },
             doJob(row) {
-                this.dojob=true;
+                this.dojob = true;
                 this.form.devIp = row.ip;
                 this.form.id = row.id;
             },
-            doprocess(){
+            doprocess() {
                 this.doBtn = true;
-                sessionStorage.setItem("notprocess","");
-                this.tableData=[];
-                this.postRequest("/diagnosis/?desc="+this.form.desc+"&id="+this.form.id).then(res=>{
+                this.tableData = [];
+                this.putRequest("/diagnosis/process/?desc=" + this.form.desc + "&id=" + this.form.id).then(res => {
                     this.dojob = false;
                     this.doBtn = false;
                 });
                 this.initD();
             },
             remark(row) {
-                this.remarkInfo=true;
-                this.form.desc='';
-                this.getRequest("/diagnosis/remark/"+row.id).then(res=>{
+                this.remarkInfo = true;
+                this.form.desc = '';
+                this.getRequest("/diagnosis/remark/" + row.id).then(res => {
                     this.form.desc = res;
                 })
             },
             initD() {
                 this.loading1 = true;
-                if (sessionStorage.getItem("notprocess")) {
-                    let res = JSON.parse(sessionStorage.getItem("notprocess"));
-                    for (let i in res) {
-                        if (res[i].status === 0) {
-                            this.tableData.push(res[i])
-                        }
-                        if (res[i].status === 1) {
-                            this.processed.push(res[i])
-                        }
-                        if (res[i].status === 2) {
-                            this.ignored.push(res[i])
-                        }
-                    }
+                this.getRequest("/diagnosis/unprocessedpage").then(res => {
+                    this.tableData = res;
                     this.loading1 = false;
-                } else {
-                    this.getRequest("/diagnosis/").then(res => {
-                        sessionStorage.setItem("notprocess", JSON.stringify(res));
-                        for (let i in res) {
-                            if (res[i].status === 0) {
-                                this.tableData.push(res[i])
-                            }
-                            if (res[i].status === 1) {
-                                this.processed.push(res[i])
-                            }
-                            if (res[i].status === 2) {
-                                this.ignored.push(res[i])
-                            }
-                        }
-                        this.loading1 = false;
-                    });
-                }
+                });
             },
             handleSelection1(val) {
-                this.ids=[];
+                this.ids = [];
                 for (let i in val) {
                     this.ids.push(val[i].id);
                 }
             },
-            selectedIngore(){
+            selectedIngore() {
                 this.$confirm('此操作将忽略这些故障, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
                     this.doBtn = true;
-                    sessionStorage.setItem("notprocess","");
-                    this.tableData=[];
-                    this.postRequest("/diagnosis/check/ignore/?ids="+this.ids).then(res=>{
-                        if (res) {
-                            this.initD();
-                        }
+                    this.loading1 = true;
+                    this.tableData = [];
+                    this.putRequest("/diagnosis/check/ignore/?ids=" + this.ids).then(res => {
+                        this.initD();
                     })
                 }).catch(() => {
                     this.$message({
@@ -492,17 +482,17 @@
                     });
                 });
             },
-            selectedDelete(){
+            selectedDelete() {
                 this.$confirm('此操作将忽略这些故障, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    sessionStorage.setItem("notprocess","");
-                    this.tableData=[];
-                    this.processed=[];
-                    this.ignored=[];
-                    this.deleteRequest("/diagnosis/check/delete/?ids="+this.ids).then(res=>{
+                    sessionStorage.setItem("notprocess", "");
+                    this.tableData = [];
+                    this.processed = [];
+                    this.ignored = [];
+                    this.deleteRequest("/diagnosis/check/delete/?ids=" + this.ids).then(res => {
                         if (res) {
                             this.initD();
                         }
@@ -514,28 +504,28 @@
                     });
                 });
             },
-            selectedProcess(){
-                this.form.desc='';
-                this.idsOne=[];
-                this.selectedRemark=true;
-                this.idsOne= this.ids;
+            selectedProcess() {
+                this.form.desc = '';
+                this.idsOne = [];
+                this.selectedRemark = true;
+                this.idsOne = this.ids;
             },
-            doSelectedRe(){
+            doSelectedRe() {
                 this.selectedRemark = false;
                 this.$confirm('此操作将批量添加备注, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    sessionStorage.setItem("notprocess","");
-                    this.tableData=[];
-                    this.putRequest("/diagnosis/check/remark/?idsOne="+ this.idsOne+"&desc="+this.form.desc).then(res=>{
+                    this.tableData = [];
+                    this.loading1 = true;
+                    this.putRequest("/diagnosis/check/process?ids=" + this.idsOne + "&desc=" + this.form.desc).then(res => {
                         if (res) {
                             this.initD();
-                            this.selectedRemark=false;
-                        }else {
+                            this.selectedRemark = false;
+                        } else {
                             this.initD();
-                            this.selectedRemark=false;
+                            this.selectedRemark = false;
                         }
                     })
                 }).catch(() => {
@@ -546,13 +536,13 @@
                 });
             },
             handleSelection2(val) {
-                this.ids=[];
+                this.ids = [];
                 for (let i in val) {
                     this.ids.push(val[i].id);
                 }
             },
             handleSelection3(val) {
-                this.ids=[];
+                this.ids = [];
                 for (let i in val) {
                     this.ids.push(val[i].id);
                 }
@@ -569,6 +559,7 @@
     .st-square-warning {
         background-color: #ebb134;
     }
+
     .st-square-deepred {
         background-color: #eb0200;
     }
@@ -578,7 +569,7 @@
     }
 
     .st-square-success {
-        background-color: #5deb24;
+        background-color: #ebe82a;
     }
 
     .st-square {

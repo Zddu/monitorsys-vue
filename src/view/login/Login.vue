@@ -47,7 +47,6 @@
                             if(resp){
                                 window.sessionStorage.setItem("user",JSON.stringify(resp.obj));
                                 let path = this.$route.query.redirect;
-                                console.log(this.$route.query.redirect);
                                 this.$router.replace((path === '/' || path === undefined) ? '/home' : path);//replace 方法替换当前页 为home，不可以返回，push方法则可以返回到登录页
                             }
                         })

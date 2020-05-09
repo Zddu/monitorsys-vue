@@ -6,10 +6,16 @@
                     检测总数
                     <a id="devconut">{{deviceTotal}}</a>个设备
                 </div>
+                <span style="margin-right: 10px;"><i class="iconfont Moniconrouter iconThird" style="font-size: 21px" title="路由器">{{this.classify.路由器.length}}</i></span>
+                <span style="margin-right: 10px;"><i class="iconfont Moniconlayer-three-switch iconThird" style="font-size: 21px" title="三层交换机">{{this.classify.三层交换机.length}}</i></span>
+                <span style="margin-right: 10px;"><i class="iconfont Moniconswitch iconThird" style="font-size: 21px" title="二层交换机">{{this.classify.二层交换机.length}}</i></span>
+                <span><i class="iconfont Moniconfuwuqi iconThird" style="font-size: 20px" title="服务器">{{tableData1[0].children[0].children.length}}</i></span>
             </div>
             <div class="headerRight">
                 <el-input size="small" style="width: 220px;margin-right: 10px;" v-model="searchIp" placeholder="输入IP搜索设备"></el-input>
                 <el-button size="small" type="primary" plain icon="el-icon-search" @click="SearchIp()">搜索</el-button>
+                <el-button size="small" type="primary" plain icon="el-icon-upload2" >批量设备导入</el-button>
+
             </div>
         </div>
         <el-divider></el-divider>
@@ -229,6 +235,7 @@
         components: {IfFlow, IfInfo, MemoryInfo, CpuInfo},
         data() {
             return {
+                LinkSw:'',
                 searchIp:'',
                 BaseInfo: {},
                 ifFlow: [],
@@ -286,6 +293,7 @@
                     }],
                 }],
                 options: [],
+                classify:{},
                 value: ''
             }
         },
@@ -293,7 +301,6 @@
             getAllDevice() {
                 this.getRequest("/device/disp").then(res => {
                     this.deviceTotal = res.length;
-                    console.log(res);
                     for (let i in res) {
                         if (res[i].typeName === '服务器') {
                             this.tableData1[0].children[0].children.push(res[i]);
@@ -305,6 +312,14 @@
                             this.tableData1[0].children[1].children.push(res[i]);
                         }
                     }
+                    this.classify = this.tableData1[0].children[1].children.reduce((last,item)=>{
+                        if(last[item.typeName]){
+                            last[item.typeName].push(item)
+                        }else{
+                            last[item.typeName]=[item]
+                        }
+                        return last
+                    });
                 });
             },
             handleClick(row) {

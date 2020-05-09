@@ -9,7 +9,8 @@ import HitchRequire from "./view/fault/HitchRequire";
 import FailureAll from "./view/fault/FailureAll";
 import RuleSet from "./view/fault/RuleSet";
 import DevDispView from "./view/device/DevDispView";
-import DevFormView from "./view/device/DevFormView";
+import DevFlowView from "./view/device/DevFlowView";
+import FailureAnalysis from "./view/fault/FailureAnalysis";
 Vue.use(Router);
 export default new Router({
     routes: [
@@ -51,13 +52,18 @@ export default new Router({
                     hidden:true,
                 },{
                     path: '/devDis',
-                    name: '视图展示',
+                    name: '硬件管理',
                     component: DevDispView,
                     hidden:true,
                 },{
                     path: '/devForm',
-                    name: '图表展示',
-                    component: DevFormView,
+                    name: '流量展示',
+                    component: DevFlowView,
+                    hidden:true,
+                },{
+                    path: '/failAnalysis',
+                    name: '故障分析',
+                    component: FailureAnalysis,
                     hidden:true,
                 }
             ]

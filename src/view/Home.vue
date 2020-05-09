@@ -42,8 +42,12 @@
                         <el-menu-item index="/deviceManage">
                             设备管理
                         </el-menu-item>
-                        <el-menu-item index="/devDis">视图展示</el-menu-item>
-                        <el-menu-item index="/devForm">图表展示</el-menu-item>
+                        <el-menu-item index="/devDis">
+                            硬件管理
+                        </el-menu-item>
+                        <el-menu-item index="/devForm">
+                            流量展示
+                        </el-menu-item>
                     </el-submenu>
                     <el-submenu index="7">
                         <template slot="title">
@@ -55,6 +59,9 @@
                         </el-menu-item>
                         <el-menu-item index="/failureAll">
                             故障总览
+                        </el-menu-item>
+                        <el-menu-item index="/failAnalysis">
+                            故障分析
                         </el-menu-item>
                         <el-menu-item index="/faultManage">
                             故障视图

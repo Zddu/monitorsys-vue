@@ -1,10 +1,11 @@
+
 <template>
     <div :id="id"  :style="style"></div>
 </template>
 
 <script>
     export default {
-        name: "FlowDataAnalysis",
+        name: "FlowDataAnalysisByError",
         data(){
             return{
                 chart: '',
@@ -37,7 +38,7 @@
                         }
                     },
                     legend: {
-                        data: ['流量接收占比率','流量接收占比率'],
+                        data: ['数据接收错误率','数据发送错误率'],
                         left: 10
                     },
                     dataZoom: [
@@ -70,7 +71,7 @@
                     ],
                     series: [
                         {
-                            name: '流量接收占比率',
+                            name: '数据接收错误率',
                             type: 'line',
                             animation: false,
                             lineStyle: {
@@ -79,7 +80,7 @@
                             data: [],
                             smooth:true
                         },{
-                            name: '流量接收占比率',
+                            name: '数据发送错误率',
                             type: 'line',
                             animation: false,
                             lineStyle: {
@@ -90,7 +91,6 @@
                         },
                     ]
                 },
-
             }
         },
         props: {
@@ -126,8 +126,8 @@
                 this.option.series[1].data = [];
                 for (let i in d) {
                     this.option.xAxis[0].data.push(d[i].time);
-                    this.option.series[0].data.push(d[i].inRate);
-                    this.option.series[1].data.push(d[i].outRate)
+                    this.option.series[0].data.push(d[i].inErrorRate);
+                    this.option.series[1].data.push(d[i].outErrorRate)
                 }
                 this.chart.setOption(this.option,true);
                 window.addEventListener("resize", this.chart.resize);
