@@ -14,7 +14,10 @@
                 },
                 option:{
                     title:{
-                        subtext:'若数值<0则设备SNMP服务未启用'
+                        subtext:'若数值<0则设备SNMP服务未启用',
+                        subtextStyle : {
+                            // fontSize :'18',
+                        }
                     },
                     tooltip: {
                         trigger: 'axis',
@@ -23,10 +26,17 @@
                             label: {
                                 backgroundColor: '#283b56'
                             }
-                        }
+                        },
+                        textStyle:{
+                            // fontSize:18
+                        },
+                        formatter: ' {b}<br/>{a} : {c} %'
                     },
                     legend: {
                         data: ['内存使用率'],
+                        textStyle:{
+                            // fontSize:18
+                        }
                     },
                     toolbox: {
                         show: true,
@@ -44,7 +54,12 @@
                         {
                             type: 'category',
                             boundaryGap: true,
-                            data: []
+                            data: [],
+                            axisLabel: {
+                                textStyle: {
+                                    // fontSize: 18,
+                                }
+                            },
                         },
                     ],
                     yAxis: [
@@ -52,8 +67,16 @@
                             type: 'value',
                             scale: true,
                             name: '使用率%',
+                            nameTextStyle:{
+                                // fontSize: 16,
+                            },
                             min: 0,
-                            boundaryGap: [0.2, 0.2]
+                            boundaryGap: [0.2, 0.2],
+                            axisLabel:{
+                                textStyle: {
+                                    // fontSize: 18,
+                                }
+                            }
                         }
                     ],
                     series: [
@@ -62,7 +85,15 @@
                             type: 'line',
                             data: [],
                             smooth: true,
-                            areaStyle: {}
+                            areaStyle: {},
+                            label: {
+                                normal: {
+                                    show: true,
+                                    textStyle: {
+                                        // fontSize: 18
+                                    }
+                                },
+                            },
                         }
                     ]
                 }

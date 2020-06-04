@@ -44,8 +44,10 @@
                     if (valid) {
                         this.postRequest('/monitor/doLogin',this.loginForm).then(resp=>{ //这里的resp 里面返回就是api.js 里面处理过的
                             //这里直接判断 resp 是否为空  如果为空不用处理 api里面已经处理过了，只需要处理成功的即可
-                            if(resp){
-                                window.sessionStorage.setItem("user",JSON.stringify(resp.obj));
+                            console.log(resp);
+                            if(resp.status!==500){
+
+                                // window.sessionStorage.setItem("user",JSON.stringify(resp.obj));
                                 let path = this.$route.query.redirect;
                                 this.$router.replace((path === '/' || path === undefined) ? '/home' : path);//replace 方法替换当前页 为home，不可以返回，push方法则可以返回到登录页
                             }

@@ -6,16 +6,29 @@
                     检测总数
                     <a id="devconut">{{deviceTotal}}</a>个设备
                 </div>
-                <span style="margin-right: 10px;"><i class="iconfont Moniconrouter iconThird" style="font-size: 21px" title="路由器">{{this.classify.路由器.length}}</i></span>
-                <span style="margin-right: 10px;"><i class="iconfont Moniconlayer-three-switch iconThird" style="font-size: 21px" title="三层交换机">{{this.classify.三层交换机.length}}</i></span>
-                <span style="margin-right: 10px;"><i class="iconfont Moniconswitch iconThird" style="font-size: 21px" title="二层交换机">{{this.classify.二层交换机.length}}</i></span>
-                <span><i class="iconfont Moniconfuwuqi iconThird" style="font-size: 20px" title="服务器">{{tableData1[0].children[0].children.length}}</i></span>
+            </div>
+            <div style="height: 35px;">
+                <span class="topSpan">
+                    <i class="iconfont Moniconrouter iconThird" style="font-size: 21px" title="路由器"></i>
+                    <span class="inTopSpan">{{this.classify.路由器.length}}</span>
+                </span>
+                <span class="topSpan">
+                    <i class="iconfont Moniconlayer-three-switch iconThird" style="font-size: 21px" title="三层交换机"></i>
+                    <span class="inTopSpan">{{this.classify.三层交换机.length}}</span>
+                </span>
+                <span class="topSpan">
+                    <i class="iconfont Moniconswitch iconThird" style="font-size: 21px" title="二层交换机"></i>
+                    <span class="inTopSpan">{{this.classify.二层交换机.length}}</span>
+                </span>
+                <span class="topSpan">
+                    <i class="iconfont Moniconfuwuqi iconThird" style="font-size: 20px" title="服务器"></i>
+                    <span class="inTopSpan">{{tableData1[0].children[0].children.length}}</span>
+                </span>
             </div>
             <div class="headerRight">
                 <el-input size="small" style="width: 220px;margin-right: 10px;" v-model="searchIp" placeholder="输入IP搜索设备"></el-input>
                 <el-button size="small" type="primary" plain icon="el-icon-search" @click="SearchIp()">搜索</el-button>
                 <el-button size="small" type="primary" plain icon="el-icon-upload2" >批量设备导入</el-button>
-
             </div>
         </div>
         <el-divider></el-divider>
@@ -422,6 +435,18 @@
 </script>
 
 <style>
+
+    .topSpan{
+        margin-right: 10px;
+        position: relative
+    }
+    .inTopSpan{
+        position: absolute;
+        top: 13px;
+        left: 6px;
+        color: #ff6f00b8;
+        margin-top: 5px;
+    }
     .selfbar{
         overflow-x: hidden!important;
     }
@@ -436,10 +461,13 @@
 
     .DMHeader {
         height: 58px;
-        padding: 15px 30px 10px 20px;
+        position: relative;
+
         background-color: #edeef3 !important;
         box-sizing: border-box;
         width: 100%;
+        display: flex;
+        align-items: center;
     }
 
     .headerLeft {
@@ -508,11 +536,8 @@
     }
 
     .headerRight {
-        float: right;
-        margin-left: 10px;
-        height: 32px;
-        display: flex;
-        width: 650px;
+        position: absolute;
+        right: 100px;
     }
 
     #searchedevice {

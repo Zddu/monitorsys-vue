@@ -2,7 +2,7 @@
     <div style="width: 100%;height: 100%">
         <el-row>
             <el-col :span="24">
-                <span style="margin-right: 10px;">选择设备查看设备详细信息</span>
+                <span style="margin-right: 10px;">选择设备</span>
                 <el-select @change="getIp" style="width: 300px" size="small" filterable v-model="value"
                            placeholder="请选择">
                     <el-option

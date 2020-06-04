@@ -1,5 +1,5 @@
 <template>
-    <div :id="id"   :style="style"></div>
+    <div :id="id" :style="style"></div>
 </template>
 
 <script>
@@ -8,13 +8,16 @@
         data() {
             return {
                 chart: '',
-                cpuData:{
-                    cpuRate:[],
-                    time:[],
+                cpuData: {
+                    cpuRate: [],
+                    time: [],
                 },
-                option:{
-                    title:{
-                        subtext:'若数值<0则设备SNMP服务未启用'
+                option: {
+                    title: {
+                        subtext: '若数值<0则设备SNMP服务未启用',
+                        subtextStyle : {
+                            // fontSize :'18',
+                        }
                     },
                     tooltip: {
                         trigger: 'axis',
@@ -23,10 +26,17 @@
                             label: {
                                 backgroundColor: '#283b56'
                             }
-                        }
+                        },
+                        textStyle:{
+                            // fontSize:18
+                        },
+                        formatter: ' {b}<br/>{a} : {c} %'
                     },
                     legend: {
                         data: ['CPU使用率'],
+                        textStyle:{
+                            // fontSize:18
+                        }
                     },
                     toolbox: {
                         show: true,
@@ -44,7 +54,12 @@
                         {
                             type: 'category',
                             boundaryGap: true,
-                            data: []
+                            data: [],
+                            axisLabel: {
+                                textStyle: {
+                                    // fontSize: 18,
+                                }
+                            },
                         },
                     ],
                     yAxis: [
@@ -52,8 +67,16 @@
                             type: 'value',
                             scale: true,
                             name: '使用率%',
+                            nameTextStyle:{
+                                // fontSize: 16,
+                            },
                             min: 0,
-                            boundaryGap: [0.2, 0.2]
+                            boundaryGap: [0.2, 0.2],
+                            axisLabel:{
+                                textStyle: {
+                                    // fontSize: 16,
+                                }
+                            }
                         }
                     ],
                     series: [
@@ -62,7 +85,15 @@
                             type: 'line',
                             data: [],
                             smooth: true,
-                            areaStyle: {}
+                            areaStyle: {},
+                            label: {
+                                normal: {
+                                    show: true,
+                                    textStyle: {
+                                        // fontSize: 18
+                                    }
+                                },
+                            },
                         }
                     ]
                 }
@@ -72,8 +103,8 @@
             id: {
                 type: String
             },
-            ip:{
-              type:String
+            ip: {
+                type: String
             },
             width: {
                 type: String,
@@ -97,8 +128,8 @@
             this.initDataInfo();
         },
         methods: {
-            initDataInfo(){
-                this.getRequest("/monitor/cpu/"+this.ip).then(res=>{
+            initDataInfo() {
+                this.getRequest("/monitor/cpu/" + this.ip).then(res => {
                     this.cpuData = res;
                     this.init(this.cpuData);
                 });
@@ -106,22 +137,22 @@
             init(obj) {
                 console.log(obj);
                 this.chart = this.$echarts.init(document.getElementById(this.id));
-                this.option.xAxis[0].data=[];
-                this.option.series[0].data=[];
-                for (let i = obj.length-1; i>=0;i--) {
+                this.option.xAxis[0].data = [];
+                this.option.series[0].data = [];
+                for (let i = obj.length - 1; i >= 0; i--) {
                     this.option.xAxis[0].data.push(obj[i].time);
                     this.option.series[0].data.push(obj[i].cpuRate);
                 }
-                this.chart.setOption(this.option,true);
+                this.chart.setOption(this.option, true);
                 window.addEventListener("resize", this.chart.resize);
             }
         },
-        watch:{
-            ip:{
-                handler (newV, oldV) {
+        watch: {
+            ip: {
+                handler(newV, oldV) {
                     this.initDataInfo()
                 },
-                deep:true
+                deep: true
             },
         }
     }

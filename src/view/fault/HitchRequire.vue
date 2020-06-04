@@ -171,7 +171,7 @@
                         label: '北京服务器',
                         icon: 'iconfont Moniconwenjianjia iconSecond',
                         children: [{
-                            label: '智盘服务器10.1.1.50',
+                            label: '1.1.50',
                             icon: 'iconfont Moniconfuwuqi iconThird',
                         }]
                     },
@@ -179,7 +179,7 @@
                             label: '北京服务器',
                             icon: 'iconfont Moniconwenjianjia iconSecond',
                             children: [{
-                                label: '智盘服务器10.1.1.50',
+                                label: '1.1.50',
                                 icon: 'iconfont Moniconfuwuqi iconThird',
                             }]
                         }

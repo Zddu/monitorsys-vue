@@ -37,7 +37,7 @@
                         }
                     },
                     legend: {
-                        data: ['流量接收占比率','流量接收占比率'],
+                        data: ['流量接收占比率','流量发送占比率'],
                         left: 10
                     },
                     dataZoom: [
@@ -79,7 +79,7 @@
                             data: [],
                             smooth:true
                         },{
-                            name: '流量接收占比率',
+                            name: '流量发送占比率',
                             type: 'line',
                             animation: false,
                             lineStyle: {

@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 import echarts from 'echarts'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/iconfont/iconfont.css'
+import './assets/iconfont2/iconfont.css'
 
 import {postRequest} from "./utils/api";
 import {putRequest} from "./utils/api";
@@ -17,6 +18,7 @@ Vue.prototype.putRequest = putRequest;
 Vue.prototype.deleteRequest = deleteRequest;
 Vue.prototype.getRequest = getRequest;
 Vue.prototype.$echarts = echarts;
+
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);

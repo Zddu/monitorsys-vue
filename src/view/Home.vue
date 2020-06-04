@@ -42,6 +42,9 @@
                         <el-menu-item index="/deviceManage">
                             设备管理
                         </el-menu-item>
+                        <el-menu-item index="/devBase">
+                            基础信息
+                        </el-menu-item>
                         <el-menu-item index="/devDis">
                             硬件管理
                         </el-menu-item>
@@ -86,8 +89,10 @@
                             <i class="el-icon-data-analysis"></i>
                             <span>流量分析</span>
                         </template>
-                        <el-menu-item index="3-1">视图展示</el-menu-item>
-                        <el-menu-item index="3-2">图表展示</el-menu-item>
+                        <el-menu-item index="/dataProcessing">数据加工</el-menu-item>
+                        <el-menu-item index="/modelTrain">模型训练</el-menu-item>
+                        <el-menu-item index="/fileClassify">文件分类</el-menu-item>
+                        <el-menu-item index="/flowClassify">自动分类</el-menu-item>
                     </el-submenu>
                     <el-submenu index="4">
                         <template slot="title">
@@ -121,7 +126,7 @@
                 </el-menu>
             </el-aside>
             <el-scrollbar  class="default-scrollbar" wrap-class="default-scrollbar__wrap" view-class="p20-scrollbar__view" :native="false">
-                <el-main style="height: 100%;">
+                <el-main style="height: 100%; overflow-y: hidden;">
                 <el-breadcrumb style="margin-bottom: 10px;" separator="/"
                                v-if="this.$router.currentRoute.path !='/home'">
                     <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
@@ -169,9 +174,7 @@
         -ms-flex: 1;
         flex: 1;
     }
-    .el-scrollbar__wrap.default-scrollbar__wrap {
-        overflow-x: auto;
-    }
+
     .el-aside {
         background-color: rgb(30, 38, 64);
         color: #333;

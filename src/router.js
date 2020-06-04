@@ -11,6 +11,11 @@ import RuleSet from "./view/fault/RuleSet";
 import DevDispView from "./view/device/DevDispView";
 import DevFlowView from "./view/device/DevFlowView";
 import FailureAnalysis from "./view/fault/FailureAnalysis";
+import DevBaseInfo from "./view/device/DevBaseInfo";
+import FlowClassify from "./view/flow/FlowClassify";
+import DataProcessing from "./view/flow/DataProcessing";
+import ModelTrain from "./view/flow/ModelTrain";
+import FileClassify from "./view/flow/FileClassify";
 Vue.use(Router);
 export default new Router({
     routes: [
@@ -56,6 +61,11 @@ export default new Router({
                     component: DevDispView,
                     hidden:true,
                 },{
+                    path: '/devBase',
+                    name: '基础信息',
+                    component: DevBaseInfo,
+                    hidden:true,
+                },{
                     path: '/devForm',
                     name: '流量展示',
                     component: DevFlowView,
@@ -64,6 +74,26 @@ export default new Router({
                     path: '/failAnalysis',
                     name: '故障分析',
                     component: FailureAnalysis,
+                    hidden:true,
+                },{
+                    path: '/flowClassify',
+                    name: '自动分类',
+                    component: FlowClassify,
+                    hidden:true,
+                },{
+                    path: '/dataProcessing',
+                    name: '数据加工',
+                    component: DataProcessing,
+                    hidden:true,
+                },{
+                    path: '/modelTrain',
+                    name: '模型训练',
+                    component: ModelTrain,
+                    hidden:true,
+                },{
+                    path: '/fileClassify',
+                    name: '文件分类',
+                    component: FileClassify,
                     hidden:true,
                 }
             ]
