@@ -20,22 +20,16 @@
                     legend: {
                         orient: 'vertical',
                         left: 'left',
-                        data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+                        data: []
                     },
                     series: [
                         {
                             selectedMode: 'single',
-                            name: '访问来源',
+                            name: '流量类别',
                             type: 'pie',
                             radius: '55%',
                             center: ['50%', '60%'],
-                            data: [
-                                {value: 335, name: '直接访问'},
-                                {value: 310, name: '邮件营销'},
-                                {value: 234, name: '联盟广告'},
-                                {value: 135, name: '视频广告'},
-                                {value: 1548, name: '搜索引擎'}
-                            ],
+                            data: [],
                             label: {
                                 formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
                                 backgroundColor: '#eee',
@@ -106,7 +100,7 @@
                 type: String,
                 default: "100%"
             },
-            data: Object,
+            data: Array,
         },
         computed: {
             style() {
@@ -122,26 +116,23 @@
         methods:{
             init(obj) {
                 this.chart = this.$echarts.init(document.getElementById(this.id));
-                // this.option.xAxis[0].data = [];
-                // this.option.series[0].data = [];
-                // for (let i = obj.length - 1; i >= 0; i--) {
-                //     this.option.xAxis[0].data.push(obj[i].time);
-                //     this.option.series[0].data.push(obj[i].cpuRate);
-                // }
+                this.option.legend.data = [];
+                this.option.series[0].data = [];
+                for (let i in obj) {
+                    this.option.legend.data.push(obj[i].name);
+                    this.option.series[0].data.push(obj[i]);
+                }
                 this.chart.setOption(this.option, true);
                 window.addEventListener("resize", this.chart.resize);
             }
         },
         watch: {
-            ip: {
+            data: {
                 handler(newV, oldV) {
+                    this.init(newV);
                 },
                 deep: true
             },
         }
     }
 </script>
-
-<style scoped>
-
-</style>

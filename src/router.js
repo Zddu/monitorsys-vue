@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './view/Home'
-import DeviceConfig from "./view/device/DeviceConfig";
 import Login from "./view/login/Login";
 import HitchView from "./view/fault/HitchView";
 import TrapView from "./view/fault/TrapView";
@@ -16,6 +15,9 @@ import FlowClassify from "./view/flow/FlowClassify";
 import DataProcessing from "./view/flow/DataProcessing";
 import ModelTrain from "./view/flow/ModelTrain";
 import FileClassify from "./view/flow/FileClassify";
+import TopoMain from "./view/topology/TopoMain";
+import DeviceInitConfig from "./view/init/DeviceInitConfig";
+import DeviceConfig from "./view/device/DeviceConfig";
 Vue.use(Router);
 export default new Router({
     routes: [
@@ -61,6 +63,11 @@ export default new Router({
                     component: DevDispView,
                     hidden:true,
                 },{
+                    path: '/topo',
+                    name: '拓扑展示',
+                    component: TopoMain,
+                    hidden:true,
+                },{
                     path: '/devBase',
                     name: '基础信息',
                     component: DevBaseInfo,
@@ -97,11 +104,17 @@ export default new Router({
                     hidden:true,
                 }
             ]
-        },{
+        },
+        {
             path: '/',
             name: 'Login',
             component: Login,
             hidden:true,
+        },
+        {
+            path: '/config',
+            name: '设备配置',
+            component: DeviceInitConfig,
         }
     ]
 })

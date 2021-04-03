@@ -3,7 +3,7 @@
         <el-row :gutter="20">
             <el-col :span="12">
                 <el-divider>PCAP to CSV</el-divider>
-                <div class="main_pro" style="height: 650px">
+                <div class="main_pro" style="height: 700px">
                     <el-form ref="form" :rules="rules" :model="form" label-width="80px">
                         <el-form-item label="上传文件">
                             <el-upload
@@ -24,10 +24,12 @@
                                 <el-input placeholder="当前数据文件的类别标签，该标签应包含于标签集" size="small" style="width: 100%" v-model="form.label"></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-button size="small" style="width: 48%" type="primary" @click="submitForm('form')">
+                            <el-button size="small" style="width: 100%" type="primary" @click="submitForm('form')">
                                 开始转换
                             </el-button>
-                            <el-button size="small" :disabled="!nums>0" style="width: 50%;" type="primary" @click="downCSV()">
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button size="small" :disabled="!nums>0" style="width: 100%;" type="primary" @click="downCSV()">
                                 数据加工完毕下载CSV
                             </el-button>
                         </el-form-item>
@@ -59,10 +61,12 @@
                             </el-tooltip>
                         </el-form-item>
                         <el-form-item>
-                            <el-button size="small"  style="width: 48%;" type="primary"  @click="submitNoLabel('unlabeled')">
+                            <el-button size="small"  style="width: 100%;" type="primary"  @click="submitNoLabel('unlabeled')">
                                 开始转换
                             </el-button>
-                            <el-button size="small" :disabled="ifconvert" style="width: 50%;" type="primary" @click="downARFFNoLabel()">
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button size="small" :disabled="ifconvert" style="width:100%;" type="primary" @click="downARFFNoLabel()">
                                 数据转换完毕下载ARFF
                             </el-button>
                         </el-form-item>

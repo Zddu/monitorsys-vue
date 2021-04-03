@@ -81,8 +81,8 @@
                             <i class="el-icon-s-marketing"></i>
                             <span>网络拓扑</span>
                         </template>
-                        <el-menu-item index="3-1">视图展示</el-menu-item>
-                        <el-menu-item index="3-2">图表展示</el-menu-item>
+                        <el-menu-item index="/topo">拓扑展示</el-menu-item>
+
                     </el-submenu>
                     <el-submenu index="8">
                         <template slot="title">

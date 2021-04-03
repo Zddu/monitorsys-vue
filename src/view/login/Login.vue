@@ -37,19 +37,26 @@
                 },
             }
         },
+        mounted(){
+          this.init_data();
+        },
         methods:{
             submitForm(){
-                this.$router.push('/home');
+
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
                         this.postRequest('/monitor/doLogin',this.loginForm).then(resp=>{ //这里的resp 里面返回就是api.js 里面处理过的
                             //这里直接判断 resp 是否为空  如果为空不用处理 api里面已经处理过了，只需要处理成功的即可
                             console.log(resp);
-                            if(resp.status!==500){
-
-                                // window.sessionStorage.setItem("user",JSON.stringify(resp.obj));
+                            if(resp.status!==500 ){
                                 let path = this.$route.query.redirect;
-                                this.$router.replace((path === '/' || path === undefined) ? '/home' : path);//replace 方法替换当前页 为home，不可以返回，push方法则可以返回到登录页
+                                console.log(window.sessionStorage.getItem("init") !== "");
+                                if (window.sessionStorage.getItem("init")!=="") {
+                                    this.$router.replace((path === '/' || path === undefined) ? '/home' : path);//replace 方法替换当前页 为home，不可以返回，push方法则可以返回到登录页
+                                }else {
+                                    this.$router.replace((path === '/' || path === undefined) ? '/config' : path);
+                                }
+                                window.sessionStorage.setItem("user",JSON.stringify(resp));
                             }
                         })
                     } else {
@@ -60,6 +67,12 @@
                         return false;
                     }
                 });
+            },
+            init_data(){
+                this.getRequest("/init/config").then(res=>{
+                    console.log(res);
+                    window.sessionStorage.setItem("init",res);
+                })
             }
         }
     }

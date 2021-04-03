@@ -18,13 +18,23 @@ Vue.prototype.putRequest = putRequest;
 Vue.prototype.deleteRequest = deleteRequest;
 Vue.prototype.getRequest = getRequest;
 Vue.prototype.$echarts = echarts;
-
+router.beforeEach((to, from, next) => {
+    if (to.path === '/') {
+        next()
+    } else {
+        if (window.sessionStorage.getItem("user")) {
+            next()
+        } else {
+            next('/?redirect=' + '/config');
+        }
+    }
+})
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(echarts);
 new Vue({
-  router,
-  store,
-  render: h => h(App),
+    router,
+    store,
+    render: h => h(App),
 }).$mount('#app')
