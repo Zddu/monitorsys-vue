@@ -1,19 +1,15 @@
-let proxyObj = {};
-proxyObj['/ws'] = {
-  ws:true,
-  target: "ws://localhost:8081"
-};
-proxyObj['/'] = {
-    ws: false,
-    target: 'http://localhost:8081',
-    pathRewrite: {
-        '^/': ''
-    }
-}
+
 module.exports = {
-    devServer:{
-        host:'localhost',
-        port:8080,
-        proxy:proxyObj
-    }
+   devServer:{
+       host: '0.0.0.0',
+       port: 8080,
+       open: true,
+       proxy: {
+           // detail: https://cli.vuejs.org/config/#devserver-proxy
+           ['^/']: {
+               target: `http://localhost:8081`,
+               changeOrigin: true,
+           }
+       },
+   }
 }

@@ -22,7 +22,8 @@
                                 return params.data.target + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
                                     params.data.source + "<br>" +
                                     params.data.dif + "&nbsp;&nbsp;&nbsp;&nbsp;" + params.data.sif+"<br>"+
-                                    "链路利用率"+"："+params.data.dfRate+"%"+"&nbsp;&nbsp;&nbsp;&nbsp;"+params.data.sfRate+"%" ;
+                                    "链路利用率"+"："+params.data.dfRate+"%"+"&nbsp;&nbsp;&nbsp;&nbsp;"+params.data.sfRate+"%" +"<br>"+
+                                    "链路流量"+": "+params.data.flow
                             } else {//如果鼠标移动到点
                                 return  "IP"+"："+params.data.name+"<br>"+
                                     "别名" + "：" + params.data.selfName + "<br>" +
@@ -65,7 +66,6 @@
                             nodeScaleRatio: 0.6,//鼠标漫游缩放时节点的相应缩放比例，当设为0时节点不随着鼠标的缩放而缩放
                             draggable: true,//节点是否可拖拽，只在使用力引导布局的时候有用。
                             focusNodeAdjacency: false,//是否在鼠标移到节点上的时候突出显示节点以及节点的边和邻接节点。
-
                             edgeSymbol: ['none'],//边两端的标记类型，可以是一个数组分别指定两端，也可以是单个统一指定。默认不显示标记，常见的可以设置为箭头，如下：edgeSymbol: ['circle', 'arrow']
                             symbolSize: 50,//图形大小
                             edgeSymbolSize: 10,//边两端的标记大小，可以是一个数组分别指定两端，也可以是单个统一指定。
@@ -118,11 +118,9 @@
                                     trigger: 'item',
                                     formatter(x) {
                                         return x.data.flow;
-                                    }
-                                },
-                                emphasis: {//高亮状态
+                                    },
 
-                                }
+                                },
                             },
                             data: [],
                             links: [],//edges是其别名代表节点间的关系数据。

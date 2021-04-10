@@ -63,9 +63,6 @@
                         <el-menu-item index="/failureAll">
                             故障总览
                         </el-menu-item>
-                        <el-menu-item index="/failAnalysis">
-                            故障分析
-                        </el-menu-item>
                         <el-menu-item index="/faultManage">
                             故障视图
                         </el-menu-item>
@@ -82,32 +79,21 @@
                             <span>网络拓扑</span>
                         </template>
                         <el-menu-item index="/topo">拓扑展示</el-menu-item>
-
-                    </el-submenu>
-                    <el-submenu index="8">
-                        <template slot="title">
-                            <i class="el-icon-data-analysis"></i>
-                            <span>流量分析</span>
-                        </template>
-                        <el-menu-item index="/dataProcessing">数据加工</el-menu-item>
-                        <el-menu-item index="/modelTrain">模型训练</el-menu-item>
-                        <el-menu-item index="/fileClassify">文件分类</el-menu-item>
-                        <el-menu-item index="/flowClassify">自动分类</el-menu-item>
                     </el-submenu>
                     <el-submenu index="4">
                         <template slot="title">
                             <i class="el-icon-setting"></i>
                             <span>日志监控</span>
                         </template>
-                        <el-menu-item index="4-1">系统日志</el-menu-item>
-                        <el-menu-item index="4-2">Trap日志</el-menu-item>
+                        <el-menu-item index="#">系统日志</el-menu-item>
+                        <el-menu-item index="#">Trap日志</el-menu-item>
                     </el-submenu>
                     <el-submenu index="5">
                         <template slot="title">
                             <i class="el-icon-menu"></i>
                             <span>配置管理</span>
                         </template>
-                        <el-menu-item index="5-1">
+                        <el-menu-item index="#">
                             ip地址管理
                         </el-menu-item>
                     </el-submenu>
@@ -116,10 +102,10 @@
                             <i class="el-icon-s-tools"></i>
                             <span>系统设置</span>
                         </template>
-                        <el-menu-item index="6-1">
+                        <el-menu-item index="#">
                             用户权限
                         </el-menu-item>
-                        <el-menu-item index="6-1">
+                        <el-menu-item index="#">
                             告警设置
                         </el-menu-item>
                     </el-submenu>

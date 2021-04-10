@@ -32,20 +32,21 @@
                             target: res[i].dip,
                             sif:res[i].sif,
                             dif:res[i].dif,
-                            flow:`${res[i].dflow}K`+"      "+`${res[i].sflow}K`,
+                            flow:`${parseFloat(res[i].dflow).toFixed(2)}K`+"  -------  "+`${parseFloat(res[i].sflow).toFixed(2)}K`,
                             sfRate:res[i].sfRate,
                             dfRate:res[i].dfRate,
                             time:res[i].time,
                             label:{
-                                align: 'center',
+                                align: 'middle',
                                 fontSize: 12,
-                                color:'#19d00f'
+                                color:'#19d00f',
                             }
                         }
                         links.push(link)
                     }
                 })
-                this.getRequest("/topo/nodeData").then(res=>{
+                this.getRequest("/topo/node").then(res=>{
+                    console.log(res);
                     let n = {};
                     for (let i = 0; i < res.cpu.length; i++) {
                         if (res.systemInfo[i].typeName === '路由器') {
