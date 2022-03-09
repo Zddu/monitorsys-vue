@@ -31,4 +31,4 @@ npm run build
 ![流量监测](https://gitee.com/zdde/monitorsys-vue/raw/master/src/assets/mt-8.png)
 
 ### 新项目重构地址
-![请前往](https://gitee.com/zdde/cool-network-system)
+https://gitee.com/zdde/cool-network-system
